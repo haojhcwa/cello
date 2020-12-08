@@ -29,8 +29,11 @@ jobs:
     - name: Create source tarball
       run: mkdir cello-1.0.2; tar czf SOURCES/cello-1.0.2.tar.gz cello-1.0.2
 
+    - name: Dir
+      run: pwd; ls -lah; tree
+
     - name: Build RPM
-      run: rpmbuild --define '_topdir /github/workspace' -ba cello.spec
+      run: rpmbuild -ba cello.spec
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
