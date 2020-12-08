@@ -18,13 +18,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Prerequisites
-      run: sudo apt install rpm yum-utils
+      run: sudo apt install rpm gcc make
 
     - name: Creat RPM Dir Structure
       run: mkdir SOURCES BUILD BUILDROOT RPMS SPECS SRPMS
-
-    - name: Install Dependencies
-      run: sudo yum-builddep --assumeyes cello.spec
 
     - name: Create source tarball
       run: mkdir cello-1.0.2; tar czf SOURCES/cello-1.0.2.tar.gz cello-1.0.2
