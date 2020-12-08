@@ -30,10 +30,10 @@ jobs:
       run: mkdir cello-1.0.2; tar czf SOURCES/cello-1.0.2.tar.gz cello-1.0.2
 
     - name: Dir
-      run: pwd; ls -lah; tree
+      run: pwd; ls -lah; echo $HOME
 
     - name: Build RPM
-      run: rpmbuild -ba cello.spec
+      run: rpmbuild -ba --define "_topdir `pwd`/" cello.spec
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
