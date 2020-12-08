@@ -17,17 +17,21 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    
-    # Runs a community action
-    - name: build RPM package
-      id: rpm
-      uses: naveenrajm7/rpmbuild@master
-      with:
-        spec_file: "cello.spec"
-    
-    - name: Print output
-      run: echo ${{steps.rpm.outputs.source_rpm_path}}
-    
+    - name: Install Prerequisites
+      run: dnf install -y rpmdevtools dnf-utils spectool dnf-utils && dnf clean all
+
+    - name: Creat RPM Dir Structure
+      run: rpmdev-setuptree
+
+    - name: Install Dependencies
+      run: sudo yum-builddep --assumeyes cello.spec
+
+    - name: Create source tarball
+      run: mkdir cello-1.0.2; tar czf SOURCES/cello-1.0.2.tar.gz cello-1.0.2
+
+    - name: Build RPM
+      run: rpmbuild --define '_topdir /github/workspace' -ba cello.spec
+
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
